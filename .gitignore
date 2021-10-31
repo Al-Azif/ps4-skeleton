@@ -1,0 +1,16 @@
+# IDE config
+.vscode
+
+# Testing Data
+flawfinder.log
+cppcheck.log
+pvs-sudio.log
+strace_out
+project.log
+
+# Build artifacts
+build
+sce_sys/param.sfo
+eboot.bin
+pkg.gp4
+*.pkg
