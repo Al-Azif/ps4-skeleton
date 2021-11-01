@@ -11,8 +11,11 @@ LIBS          := -lc -lkernel -lSceSystemService
 INCLUDES      := -Iinclude -Iexternal
 
 # Additional compile flags
-ERRORFLAGS    := -Wall -Wextra
-OTHERFLAGS    :=
+#   ERRORFLAGS and OTHERFLAGS will be included in C and C++ flags
+#   OTHERCXXFLAGS will only be included in C++ flags
+ERRORFLAGS    := -Wall -Wextra # You probably don't want this on in your PKG unless you are being careful `-Wpedantic -Werror`
+OTHERFLAGS    := -O3 -std=c99 -D_DEFAULT_SOURCE
+OTHERCXXFLAGS := -std=c++11
 
 # PKG Asset directories
 ASSETS        :=
@@ -27,8 +30,8 @@ TOOLCHAIN     := $(OO_PS4_TOOLCHAIN)
 ODIR          := build
 SDIR          := src
 EXTRAFLAGS    := $(INCLUDES) $(ERRORFLAGS) $(OTHERFLAGS)
-CFLAGS        := -cc1 -triple x86_64-pc-freebsd-elf -munwind-tables -fuse-init-array -debug-info-kind=limited -debugger-tuning=gdb -emit-obj $(EXTRAFLAGS) -isysroot $(TOOLCHAIN) -isystem $(TOOLCHAIN)/include
-CXXFLAGS      := $(CFLAGS) -isystem $(TOOLCHAIN)/include/c++/v1
+CFLAGS        := -cc1 -triple x86_64-pc-freebsd-elf -munwind-tables -fuse-init-array -emit-obj -isysroot $(TOOLCHAIN) -isystem $(TOOLCHAIN)/include $(EXTRAFLAGS)
+CXXFLAGS      := $(CFLAGS) -isystem $(TOOLCHAIN)/include/c++/v1 $(OTHERCXXFLAGS)
 LDFLAGS       := -m elf_x86_64 -pie --script $(TOOLCHAIN)/link.x --eh-frame-hdr -L$(TOOLCHAIN)/lib $(LIBS) $(TOOLCHAIN)/lib/crt1.o
 
 CFILES        := $(wildcard $(SDIR)/*.c)
