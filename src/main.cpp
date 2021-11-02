@@ -56,10 +56,10 @@ void unjailbreak() {
 
 // Unload loaded libraries
 void terminate() {
-  if (g_LibLogHandle < 0) {
+  if (g_LibLogHandle >= 0) {
     sceKernelStopUnloadModule(g_LibLogHandle, 0, 0, 0, NULL, NULL);
   }
-  if (g_LibJbcHandle < 0) {
+  if (g_LibJbcHandle >= 0) {
     sceKernelStopUnloadModule(g_LibJbcHandle, 0, 0, 0, NULL, NULL);
   }
 }
