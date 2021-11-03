@@ -79,7 +79,6 @@ void initialize() {
   }
 
   if (logInitalize(g_LibLogHandle) != 0) {
-    sceKernelStopUnloadModule(g_LibLogHandle, 0, 0, 0, NULL, NULL);
     fail("Failed to initialize the libLog library's functions");
   }
 
@@ -91,7 +90,6 @@ void initialize() {
   }
 
   if (jbcInitalize(g_LibJbcHandle) != 0) {
-    sceKernelStopUnloadModule(g_LibJbcHandle, 0, 0, 0, NULL, NULL);
     fail("Failed to initialize the libjbc library's functions");
   }
 
