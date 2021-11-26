@@ -19,8 +19,8 @@ OTHERCXXFLAGS := -std=c++11
 
 # PKG Asset directories
 ASSETS        :=
-SCEMODULES    := $(shell find sce_module/ -type f -name '*.*')
-SCESYS        := $(shell find sce_sys/ -type f -name '*.*')
+SCEMODULES    := $(shell find sce_module -type f -name '*.*')
+SCESYS        := $(shell find sce_sys -type f -name '*.*')
 
 # -----------------------------------------------------------------------------
 # Do not edit below this line unless you know what you are doing
