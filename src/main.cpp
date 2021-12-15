@@ -13,28 +13,14 @@
 
 #include <stddef.h>
 
-// Terminate
-void terminate() {
-  // Cleanup whatever you initialized in `initialize()`
-}
-
 // This function will display p_Message, then "cleanly" close the application
 void fail(const char *p_Message) {
-  printf("%s", p_Message);
+  logKernel(LL_Fatal, "%s", p_Message);
   notifi(NULL, "%s", p_Message);
-  terminate();
   sceSystemServiceLoadExec("exit", NULL);
 }
 
-// Initalize
-void initialize() {
-  // Initialize libraries and whatnot here
-}
-
 int main() {
-  // Initialize
-  initialize();
-
   // Jailbreak
   jailbreak();
 
@@ -50,9 +36,6 @@ int main() {
 
   // Sleep for 7 seconds so the system has time to display the notification
   sceKernelSleep(7);
-
-  // Terminate
-  terminate();
 
   // "Clean" close
   sceSystemServiceLoadExec("exit", NULL);
