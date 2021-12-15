@@ -1,6 +1,6 @@
 # Package metadata
 TITLE         := Skeleton
-VERSION       := 1.00
+VERSION       := 1.02
 TITLE_ID      := AZIF00000
 CONTENT_ID    := IV0000-AZIF00000_00-SKELETON00000000
 
