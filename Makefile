@@ -6,6 +6,7 @@ CONTENT_ID    := IV0000-AZIF00000_00-SKELETON00000000
 
 # Libraries linked into the ELF
 LIBS          := -lc -lkernel -lSceSystemService
+LIBS					+= -Llibs -lLog -ljbc
 
 # Directorys to include
 INCLUDES      := -Iinclude -Iexternal
@@ -89,4 +90,4 @@ $(ODIR):
 
 .PHONY: clean
 clean:
-	rm -rf $(CONTENT_ID).pkg pkg.gp4 sce_sys/param.sfo eboot.bin $(ODIR)
+	rm -rf *.pkg pkg.gp4 sce_sys/param.sfo eboot.bin $(ODIR)

@@ -7,8 +7,6 @@
 #define LIBLOG_H
 
 #ifdef __cplusplus
-// TODO: C++ stream bindings includes here
-
 extern "C" {
 #endif
 
@@ -18,9 +16,7 @@ extern "C" {
 #include <stdint.h>
 #include <stdio.h>
 
-#ifndef __LIBLOG_PC__
 #include <orbis/libkernel.h>
-#endif
 
 enum LogLevels {
   LL_None,
@@ -39,75 +35,6 @@ enum PrintTypes {
   PT_Socket,
   PT_File,
 };
-
-#ifndef __LIBLOG_PC__
-void (*_logPrint)(enum LogLevels p_LogLevel, enum PrintTypes p_PrintType, bool p_Meta, const char *p_File, int p_Line, const char *p_Format, ...) = NULL;
-void (*_logPrintHex)(enum LogLevels p_LogLevel, enum PrintTypes p_PrintType, bool p_Meta, const char *p_File, int p_Line, const void *p_Pointer, int p_Length) = NULL;
-void (*_logPrintBin)(enum LogLevels p_LogLevel, enum PrintTypes p_PrintType, const char *p_Input, uint16_t p_Port, const void *p_Pointer, int p_Length) = NULL;
-
-bool (*logSocketOpen)(const char *p_IpAddress, uint16_t p_Port) = NULL;
-bool (*logSocketClose)() = NULL;
-bool (*logSocketIsOpen)() = NULL;
-
-const char *(*logSocketGetIpAddress)() = NULL;
-uint16_t (*logSocketGetPort)() = NULL;
-
-bool (*logFileOpen)(const char *p_Path) = NULL;
-bool (*logFileClose)() = NULL;
-const char *(*logFileGetFilename)() = NULL;
-
-void (*logSetLogLevel)(enum LogLevels p_LogLevel) = NULL;
-enum LogLevels (*logGetLogLevel)() = NULL;
-
-void (*logPrintSetLogLevel)(enum LogLevels p_LogLevel) = NULL;
-enum LogLevels (*logPrintGetLogLevel)() = NULL;
-
-void (*logKernelSetLogLevel)(enum LogLevels p_LogLevel) = NULL;
-enum LogLevels (*logKernelGetLogLevel)() = NULL;
-
-void (*logFileSetLogLevel)(enum LogLevels p_LogLevel) = NULL;
-enum LogLevels (*logFileGetLogLevel)() = NULL;
-
-void (*logSocketSetLogLevel)(enum LogLevels p_LogLevel) = NULL;
-enum LogLevels (*logSocketGetLogLevel)() = NULL;
-
-int logInitalize(int handle) {
-  if (sceKernelDlsym(handle, "_logPrint", (void **)&_logPrint) != 0 ||
-      sceKernelDlsym(handle, "_logPrintHex", (void **)&_logPrintHex) != 0 ||
-      sceKernelDlsym(handle, "_logPrintBin", (void **)&_logPrintBin) != 0 ||
-
-      sceKernelDlsym(handle, "logSocketOpen", (void **)&logSocketOpen) != 0 ||
-      sceKernelDlsym(handle, "logSocketClose", (void **)&logSocketClose) != 0 ||
-      sceKernelDlsym(handle, "logSocketIsOpen", (void **)&logSocketIsOpen) != 0 ||
-
-      sceKernelDlsym(handle, "logSocketGetIpAddress", (void **)&logSocketGetIpAddress) != 0 ||
-      sceKernelDlsym(handle, "logSocketGetPort", (void **)&logSocketGetPort) != 0 ||
-
-      sceKernelDlsym(handle, "logFileOpen", (void **)&logFileOpen) != 0 ||
-      sceKernelDlsym(handle, "logFileClose", (void **)&logFileClose) != 0 ||
-      sceKernelDlsym(handle, "logFileGetFilename", (void **)&logFileGetFilename) != 0 ||
-
-      sceKernelDlsym(handle, "logSetLogLevel", (void **)&logSetLogLevel) != 0 ||
-      sceKernelDlsym(handle, "logGetLogLevel", (void **)&logGetLogLevel) != 0 ||
-
-      sceKernelDlsym(handle, "logPrintSetLogLevel", (void **)&logPrintSetLogLevel) != 0 ||
-      sceKernelDlsym(handle, "logPrintGetLogLevel", (void **)&logPrintGetLogLevel) != 0 ||
-
-      sceKernelDlsym(handle, "logKernelSetLogLevel", (void **)&logKernelSetLogLevel) != 0 ||
-      sceKernelDlsym(handle, "logKernelGetLogLevel", (void **)&logKernelGetLogLevel) != 0 ||
-
-      sceKernelDlsym(handle, "logFileSetLogLevel", (void **)&logFileSetLogLevel) != 0 ||
-      sceKernelDlsym(handle, "logFileGetLogLevel", (void **)&logFileGetLogLevel) != 0 ||
-
-      sceKernelDlsym(handle, "logSocketSetLogLevel", (void **)&logSocketSetLogLevel) != 0 ||
-      sceKernelDlsym(handle, "logSocketGetLogLevel", (void **)&logSocketGetLogLevel) != 0) {
-    return -1;
-  }
-
-  return 0;
-}
-
-#else
 
 void _logPrint(enum LogLevels p_LogLevel, enum PrintTypes p_PrintType, bool p_Meta, const char *p_File, int p_Line, const char *p_Format, ...);
 void _logPrintHex(enum LogLevels p_LogLevel, enum PrintTypes p_PrintType, bool p_Meta, const char *p_File, int p_Line, const void *p_Pointer, int p_Length);
@@ -139,8 +66,6 @@ enum LogLevels logFileGetLogLevel();
 void logSocketSetLogLevel(enum LogLevels p_LogLevel);
 enum LogLevels logSocketGetLogLevel();
 
-#endif
-
 #define logPrint(p_LogLevel, ...) _logPrint(p_LogLevel, PT_Print, true, __FILE__, __LINE__, __VA_ARGS__)
 #define logPrintUnformatted(p_LogLevel, ...) _logPrint(p_LogLevel, PT_Print, false, __FILE__, __LINE__, __VA_ARGS__)
 #define logPrintHexdump(p_LogLevel, p_Pointer, p_Length) _logPrintHex(p_LogLevel, PT_Print, true, __FILE__, __LINE__, p_Pointer, p_Length)
@@ -166,9 +91,6 @@ enum LogLevels logSocketGetLogLevel();
 
 #ifdef __cplusplus
 }
-
-// TODO: C++ stream bindings here
-
 #endif
 
 #endif
