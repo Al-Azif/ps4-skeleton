@@ -31,7 +31,7 @@ TOOLCHAIN     := $(OO_PS4_TOOLCHAIN)
 ODIR          := build
 SDIR          := src
 EXTRAFLAGS    := $(INCLUDES) $(ERRORFLAGS) $(OTHERFLAGS)
-CFLAGS        := -cc1 -triple x86_64-pc-freebsd-elf -munwind-tables -fuse-init-array -emit-obj -isysroot $(TOOLCHAIN) -isystem $(TOOLCHAIN)/include $(EXTRAFLAGS)
+CFLAGS        := --target=x86_64-pc-freebsd12-elf -fPIC -funwind-tables -c -isysroot $(TOOLCHAIN) -isystem $(TOOLCHAIN)/include $(EXTRAFLAGS)
 CXXFLAGS      := $(CFLAGS) -isystem $(TOOLCHAIN)/include/c++/v1 $(OTHERCXXFLAGS)
 LDFLAGS       := -m elf_x86_64 -pie --script $(TOOLCHAIN)/link.x --eh-frame-hdr -L$(TOOLCHAIN)/lib $(LIBS) $(TOOLCHAIN)/lib/crt1.o
 
@@ -77,7 +77,7 @@ sce_sys/param.sfo: Makefile
 
 eboot.bin: $(ODIR) $(OBJS)
 	$(LD) $(ODIR)/*.o -o $(ODIR)/eboot.elf $(LDFLAGS)
-	$(TOOLCHAIN)/bin/$(CDIR)/create-eboot -in=$(ODIR)/eboot.elf -out=$(ODIR)/eboot.oelf --paid 0x3800000000000011
+	$(TOOLCHAIN)/bin/$(CDIR)/create-fself -in=$(ODIR)/eboot.elf -out=$(ODIR)/eboot.oelf --eboot "eboot.bin" --paid 0x3800000000000011
 
 $(ODIR)/%.o: $(SDIR)/%.c
 	$(CC) $(CFLAGS) -o $@ $<
